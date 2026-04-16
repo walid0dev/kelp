@@ -6,9 +6,9 @@ export default function useClickOutside<T extends HTMLElement>(
 ) {
     useEffect(()=>{
         const handleClick = (ev:MouseEvent|TouchEvent)=>{
-            if(ref.current && !ref.current.contains(ev.target as Node)){
-                cb()
-            }
+            if(!ref.current) return
+            const paths = ev.composedPath()
+            if(!paths.includes(ref.current)) cb()
         }
 
         document.addEventListener("click" , handleClick)
